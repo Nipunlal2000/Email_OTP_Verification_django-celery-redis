@@ -41,7 +41,6 @@ class UserLoginSerializer(serializers.Serializer):
     
     
     
-    
 class UserSerializer(serializers.ModelSerializer):    
     class Meta:
         model = UserProfile
@@ -53,3 +52,18 @@ class EmailSerializer(serializers.Serializer):
  
     class Meta:
         fields = ['email']
+        
+
+class AppointmentSerializer(serializers.ModelSerializer):
+    scheduled_time = serializers.DateTimeField(input_formats=['%d-%m-%Y %H:%M'])
+    
+    class Meta:
+        model = Appointment
+        fields = ['id','user','title','scheduled_time','created_at']
+        read_only_fields = ['id','created_at']
+        
+    def validate_sheduled_time(self, value):
+        from django.utils import timezone        
+        if value <= timezone.now():
+            raise serializers.ValidationError('Scheduled time must be in the future')
+        return value

@@ -24,3 +24,14 @@ class UserProfile(AbstractUser):
    
     def __str__(self):
         return self.email 
+    
+
+
+class Appointment(models.Model):
+    user = models.ForeignKey(UserProfile, on_delete=models.CASCADE)
+    title = models.CharField(max_length=100)
+    scheduled_time = models.DateTimeField()
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.user.email} -{self.scheduled_time}"

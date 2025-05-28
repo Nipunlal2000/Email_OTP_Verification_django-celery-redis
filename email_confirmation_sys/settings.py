@@ -32,6 +32,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework_simplejwt',
     'rest_framework_simplejwt.token_blacklist',
+    'django_celery_beat',
     'email_app'
 ]
 
@@ -84,6 +85,7 @@ DATABASES = {
 CELERY_BROKER_URL = 'redis://localhost:6379/0'  # Adjust if using Docker
 CELERY_ACCEPT_CONTENT = ['json']
 CELERY_TASK_SERIALIZER = 'json'
+CELERY_RESULT_BACKEND = 'redis://localhost:6379/0'
 
 # Redis
 CACHES = {
@@ -132,7 +134,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Asia/Kolkata'
 
 USE_I18N = True
 
@@ -163,3 +165,4 @@ SIMPLE_JWT = {
 }
 
 AUTH_USER_MODEL = 'email_app.UserProfile'
+

@@ -4,7 +4,7 @@ from .serializers import *
 from rest_framework import generics, status
 from .tasks import send_otp_email
 from django.core.cache import cache
-
+from rest_framework.permissions import IsAuthenticated
 # Create your views here.
 
 
@@ -72,4 +72,14 @@ class VerifyOTPView(APIView):
         cache.delete(cache_key)  # Invalidate OTP 
         return Response({'detail':'Email verified successfully.'},status=status.HTTP_200_OK)
         
-          
+class AppointmentCreateView(APIView):
+    permission_classes = [IsAuthenticated]
+    
+    def post(self, request):
+        serializer = AppointmentSerializer(data = request.data)
+        if serializer.is_valid():
+            serializer.save(user = request.user)
+            return Response({'detail': 'Appointment booked successfully',
+                            'data': serializer.data}, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    

@@ -87,7 +87,7 @@ redis-server
 
 ### 6. Start Celery Worker
 
-celery -A email_confirmation_sys worker --loglevel=info
+celery -A email_confirmation_sys worker --loglevel=info --pool=solo
 
 ### 7. Register and verify email
 
